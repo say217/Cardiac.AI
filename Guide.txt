@@ -1,25 +1,43 @@
-heart_risk_prediction/
+Heart_risk_ML/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── app/
 │   ├── __init__.py
+│   ├── data.json
 │   ├── routes.py
+│   ├── routes_test.py
+│   ├── models/
+│   │   └── heart_risk_multiclass_pipeline.joblib
 │   ├── services/
 │   │   └── prediction_service.py
-│   ├── models/
-│   │   └── heart_risk_model.joblib          # Your model (renamed for clarity)
-│   ├── utils/
-│   │   └── preprocessing.py
-│   ├── templates/
-│   │   ├── index.html
-│   │   └── result.html
 │   ├── static/
-│   │   └── style.css
-│   └── data.json                                # Optional sample data
-│
-├── requirements.txt
+│   │   ├── css/
+│   │   │   ├── style.css
+│   │   │   └── test.css
+│   │   ├── js/
+│   │   │   ├── index.js
+│   │   │   └── test.js
+│   │   ├── computer-mouse-click-352734.mp3
+│   │   └── Gemini_Generated_Image_a4rvjpa4rvjpa4rv.png
+│   ├── templates/
+│   │   ├── home.html
+│   │   ├── index.html
+│   │   └── test.html
+│   └── utils/
+│       └── preprocessing.py
+├── test_data/
+│   └── Test_Heart_Risk_Data_V09 (1).csv
+├── .dockerignore
 ├── .env
-└── serve.py
+├── .gitignore
+├── a.py
+├── Dockerfile
+├── Guide.txt
+├── pyproject.toml
+├── README.md
+├── requirements.txt
+└── run.py
 
-
-
-run serve.py  to run the web app 
-pandas==2.2.3, flask==3.1.1, markdown==3.8, bleach==6.2.0, google-generativeai==0.8.5, joblib==1.5.1, numpy==1.26.4
+Run the web app:
+python run.py
