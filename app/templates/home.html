@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardiac.AI</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='Gemini_Generated_Image_a4rvjpa4rvjpa4rv.png') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-void: #050505;
+            --bg-base: #0c0c0c;
+            --bg-surface: #111111;
+            --bg-raised: #181818;
+            --bg-elevated: #1e1e1e;
+            --text-primary: #f0ede8;
+            --text-secondary: #8a8782;
+            --text-muted: #4a4845;
+            --text-dim: #2a2825;
+            --border-hairline: rgba(240,237,232,0.06);
+            --border-subtle: rgba(240,237,232,0.10);
+            --border-visible: rgba(240,237,232,0.16);
+            --glow-soft: rgba(240,237,232,0.04);
+            --glow-medium: rgba(240,237,232,0.08);
+            --accent-1: #c8b8ff;
+            --accent-2: #7de8d8;
+            --accent-3: #ffb4a2;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            --ease-out-expo: cubic-bezier(0.16,1,0.3,1);
+            --ease-in-out-smooth: cubic-bezier(0.4,0,0.2,1);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-void);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.025;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .container { max-width: 1180px; margin: 0 auto; padding: 0 2rem; }
+
+        /* ─── HEADER ─── */
+        header {
+            position: fixed; top: 0; width: 100%;
+            background: rgba(5,5,5,0.75);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border-hairline);
+            z-index: 200; padding: 1.1rem 0;
+        }
+
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+
+        .logo {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--text-primary); opacity: 0.9;
+        }
+
+        nav { display: flex; align-items: center; gap: 0.25rem; }
+        nav a {
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.82rem; font-weight: 400; letter-spacing: 0.01em;
+            padding: 0.4rem 0.85rem; border-radius: var(--radius-sm);
+            transition: color 0.25s ease, background 0.25s ease;
+        }
+        nav a:hover { color: var(--text-primary); background: var(--glow-soft); }
+
+        /* ─── HERO ─── */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center;
+            padding-top: 5rem;
+            position: relative; overflow: hidden;
+        }
+
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 0;
+            width: 100%;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-ball-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero-ball-wrap::before {
+            content: '';
+            position: absolute;
+            width: 460px; height: 460px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+            pointer-events: none;
+            animation: glow-pulse 5s ease-in-out infinite;
+        }
+        @keyframes glow-pulse {
+            0%,100% { transform: scale(1);   opacity: 1; }
+            50%      { transform: scale(1.08); opacity: 0.6; }
+        }
+
+        .glass-ball {
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            position: relative;
+            animation: ball-float 6s ease-in-out infinite;
+            background:
+                radial-gradient(ellipse 55% 38% at 33% 25%,
+                    rgba(255,255,255,0.22) 0%,
+                    rgba(255,255,255,0.04) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(ellipse 60% 55% at 68% 72%,
+                    rgba(0,0,0,0.45) 0%,
+                    transparent 70%
+                ),
+                radial-gradient(ellipse 100% 100% at 50% 50%,
+                    rgba(255,255,255,0.07) 0%,
+                    rgba(255,255,255,0.03) 40%,
+                    rgba(0,0,0,0.1) 100%
+                );
+            border: 1px solid rgba(255,255,255,0.14);
+            box-shadow:
+                0 40px 100px rgba(0,0,0,0.8),
+                0 10px 40px rgba(0,0,0,0.6),
+                inset 2px 3px 12px rgba(255,255,255,0.15),
+                inset -2px -3px 14px rgba(0,0,0,0.5),
+                0 0 60px rgba(255,255,255,0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .glass-ball::before {
+            content: '';
+            position: absolute;
+            width: 60px; height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse, rgba(255,255,255,0.35) 0%, transparent 100%);
+            top: 14%; left: 18%;
+            transform: rotate(-30deg);
+            filter: blur(6px);
+            pointer-events: none;
+        }
+
+        .glass-ball::after {
+            content: '';
+            position: absolute;
+            width: 120px; height: 70px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse, rgba(255,255,255,0.06) 0%, transparent 100%);
+            bottom: 16%; right: 14%;
+            filter: blur(10px);
+            pointer-events: none;
+        }
+
+        @keyframes ball-float {
+            0%,100% { transform: translateY(0); }
+            50%      { transform: translateY(-18px); }
+        }
+
+        .hero-content {
+            text-align: left;
+            max-width: 520px;
+            z-index: 1; position: relative;
+            animation: heroReveal 1.2s var(--ease-out-expo) both;
+        }
+
+        @keyframes heroReveal {
+            0%   { opacity:0; transform:translateY(28px); }
+            100% { opacity:1; transform:translateY(0); }
+        }
+
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+            color: var(--text-secondary); margin-bottom: 2rem;
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--border-hairline);
+            border-radius: 100px;
+            background: var(--glow-soft);
+            backdrop-filter: blur(8px);
+        }
+        .hero-eyebrow::before {
+            content: '';
+            display: inline-block; width:5px; height:5px;
+            background: var(--text-secondary); border-radius:50%; opacity:0.6;
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: clamp(2rem, 4.2vw, 3.4rem);
+            font-weight: 400;
+            font-style: italic;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 0.15em;
+            color: var(--text-primary);
+        }
+
+        .hero-sub-headline {
+            font-family: 'DM Sans', sans-serif;
+            font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+            font-weight: 300;
+            letter-spacing: -0.01em;
+            color: var(--text-secondary);
+            margin-bottom: 1.75rem;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            font-weight: 400; line-height: 1.75;
+            max-width: 440px;
+            opacity: 0.85;
+        }
+
+        .cta-buttons {
+            display: flex; gap: 0.85rem;
+            justify-content: flex-start; flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.85rem 1.85rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem; font-weight: 500;
+            letter-spacing: 0.01em;
+            border: none; cursor: pointer;
+            transition: all 0.3s var(--ease-out-expo);
+            text-decoration: none;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            border-radius: 6px;
+        }
+
+        .btn-primary {
+            background: var(--text-primary);
+            color: var(--bg-void);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.1),
+                0 4px 16px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.5),
+                inset 0 -1px 0 rgba(0,0,0,0.15);
+        }
+        .btn-primary:hover {
+            background: #ffffff;
+            transform: translateY(-3px);
+            box-shadow:
+                0 0 32px rgba(240,237,232,0.2),
+                0 10px 28px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.6),
+                inset 0 -1px 0 rgba(0,0,0,0.1);
+        }
+        .btn-primary:active { transform: translateY(-1px); }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+            backdrop-filter: blur(8px);
+        }
+        .btn-secondary:hover {
+            color: var(--text-primary);
+            border-color: var(--border-visible);
+            background: var(--glow-soft);
+            transform: translateY(-2px);
+        }
+
+        /* ─── SECTIONS ─── */
+        section { padding: 8rem 0; position: relative; }
+        section:not(.hero) { background: var(--bg-base); }
+        section:nth-child(even):not(.hero) { background: var(--bg-surface); }
+        section:not(.hero)::before {
+            content: '';
+            position: absolute; top:0; left:0; right:0; height:1px;
+            background: linear-gradient(90deg, transparent, var(--border-hairline) 30%, var(--border-hairline) 70%, transparent);
+        }
+
+        .section-header { max-width:640px; margin:0 auto 4rem; text-align:center; }
+
+        h2 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: clamp(1.8rem,4vw,2.8rem);
+            font-weight: 400; letter-spacing: -0.02em;
+            margin-bottom: 1rem; line-height: 1.15;
+            color: var(--text-primary);
+        }
+
+        .section-description {
+            font-size: 1rem; color: var(--text-secondary);
+            line-height: 1.75; font-weight: 400;
+        }
+
+        /* ─── NEXT-GEN CARDS ─── */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+            gap: 1.5rem; margin-top: 3rem;
+        }
+
+        .card {
+            background: var(--bg-raised);
+            border: 1px solid var(--border-hairline);
+            padding: 2.25rem;
+            transition: all 0.5s var(--ease-out-expo);
+            position: relative; border-radius: var(--radius-lg); overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        /* animated gradient border on hover */
+        .card::before {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: var(--radius-lg);
+            padding: 1px;
+            background: linear-gradient(135deg,
+                rgba(200,184,255,0.4),
+                rgba(125,232,216,0.2) 40%,
+                rgba(255,180,162,0.3) 70%,
+                rgba(200,184,255,0.1)
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s var(--ease-out-expo);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute; top:0; left:0; right:0; height:80px;
+            background: linear-gradient(180deg, rgba(200,184,255,0.06), transparent);
+            opacity: 0; transition: opacity 0.5s var(--ease-out-expo);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .card:hover {
+            border-color: transparent;
+            transform: translateY(-8px) scale(1.01);
+            box-shadow:
+                0 32px 64px rgba(0,0,0,0.7),
+                0 0 0 1px rgba(200,184,255,0.15),
+                0 0 60px rgba(200,184,255,0.05);
+            background: var(--bg-elevated);
+        }
+        .card:hover::before, .card:hover::after { opacity:1; }
+
+        /* card accent line */
+        .card-accent {
+            position: absolute;
+            top: 0; left: 2rem; right: 2rem;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(200,184,255,0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .card:hover .card-accent { opacity: 1; }
+
+        .card h3 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.05rem; font-weight: 600;
+            margin-bottom: 0.85rem; letter-spacing: -0.01em;
+            color: var(--text-primary); position: relative;
+        }
+        .card p {
+            color: var(--text-secondary); line-height: 1.75;
+            font-size: 0.92rem; font-weight: 400; position: relative;
+        }
+        .card-num {
+            font-size: 0.65rem; letter-spacing: 0.12em;
+            color: var(--text-muted); text-transform: uppercase;
+            margin-bottom: 1.5rem; display: block;
+        }
+
+        /* ─── FLOW ─── */
+        .flow-container {
+            display: flex; justify-content: center; align-items: center;
+            gap: 1.5rem; flex-wrap: wrap; margin: 4rem 0 3rem;
+        }
+        .flow-item {
+            text-align: center; flex:1; min-width:180px; max-width:240px;
+        }
+        .flow-icon {
+            width:72px; height:72px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.25rem;
+            background: var(--bg-raised);
+            color: var(--text-secondary);
+            transition: all 0.4s var(--ease-out-expo);
+            box-shadow:
+                0 2px 0 rgba(255,255,255,0.05) inset,
+                0 -2px 0 rgba(0,0,0,0.4) inset,
+                0 8px 20px rgba(0,0,0,0.4),
+                0 1px 3px rgba(0,0,0,0.5);
+        }
+        .flow-item:hover .flow-icon {
+            border-color: rgba(200,184,255,0.4);
+            background: var(--bg-elevated);
+            color: var(--accent-1);
+            box-shadow:
+                0 0 32px rgba(200,184,255,0.15),
+                0 2px 0 rgba(255,255,255,0.08) inset,
+                0 -2px 0 rgba(0,0,0,0.4) inset,
+                0 12px 28px rgba(0,0,0,0.5);
+            transform: translateY(-4px) scale(1.06);
+        }
+        .flow-icon i { font-size: 1.4rem; }
+        .flow-item h3 { font-size:0.9rem; font-weight:600; letter-spacing:-0.01em; margin-bottom:0.4rem; }
+        .flow-item p  { font-size:0.82rem; color:var(--text-secondary); line-height:1.5; }
+        .flow-arrow   { color:var(--text-muted); font-size:1.2rem; flex-shrink:0; }
+
+        /* ─── EXAMPLE BOX ─── */
+        .example-box {
+            background: var(--bg-raised);
+            border: 1px solid var(--border-hairline);
+            border-left: 2px solid rgba(200,184,255,0.5);
+            padding: 2rem 2.25rem; margin: 2.5rem 0;
+            color: var(--text-secondary); line-height: 1.85;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            font-size: 0.95rem; font-style: italic; font-weight: 300;
+            position: relative;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03);
+        }
+        .example-box::before {
+            content: '"';
+            position: absolute; top:-0.5rem; left:1.5rem;
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 4rem; color: var(--text-muted); line-height:1;
+            pointer-events: none;
+        }
+        .example-label {
+            font-style: normal; font-size: 0.7rem;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--text-muted); margin-bottom: 1.25rem; display: block;
+        }
+
+        /* ─── TECH ─── */
+        .tech-items {
+            display: flex; justify-content: space-around;
+            flex-wrap: wrap; gap: 3rem; margin-top: 3rem;
+        }
+        .tech-item {
+            text-align: center; flex:1; min-width:160px; max-width:220px;
+            padding: 2rem 1.5rem;
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-lg);
+            background: var(--bg-raised);
+            transition: all 0.4s var(--ease-out-expo);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+            position: relative;
+            overflow: hidden;
+        }
+        .tech-item::before {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: var(--radius-lg);
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(125,232,216,0.3), transparent 60%, rgba(200,184,255,0.2));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .tech-item:hover::before { opacity: 1; }
+        .tech-item:hover {
+            border-color: transparent;
+            background: var(--bg-elevated);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 48px rgba(0,0,0,0.6), 0 0 40px rgba(125,232,216,0.06);
+        }
+        .tech-icon {
+            font-size:1.6rem; margin-bottom:1.25rem;
+            color:var(--text-secondary);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .tech-item:hover .tech-icon { color: var(--accent-2); transform: scale(1.15); }
+        .tech-item h3 { font-size:0.9rem; font-weight:600; margin-bottom:0.5rem; letter-spacing:-0.01em; }
+        .tech-item p  { font-size:0.8rem; color:var(--text-secondary); line-height:1.5; }
+
+        .section-label {
+            font-size:0.7rem; letter-spacing:0.16em; text-transform:uppercase;
+            color:var(--text-muted); margin-bottom:1.25rem; display:block;
+        }
+
+        /* ─── STATS BAND ─── */
+        .stats-band {
+            padding: 5rem 0;
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border-hairline);
+            border-bottom: 1px solid var(--border-hairline);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+            gap: 2rem;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 2rem 1rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-hairline);
+            background: var(--bg-raised);
+            transition: all 0.4s ease;
+        }
+        .stat-item:hover {
+            border-color: var(--border-subtle);
+            transform: translateY(-4px);
+        }
+        .stat-number {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 2.8rem;
+            font-style: italic;
+            color: var(--text-primary);
+            display: block;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            font-size: 0.78rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* ─── MARQUEE TICKER ─── */
+        .ticker-wrap {
+            overflow: hidden;
+            padding: 1.25rem 0;
+            border-top: 1px solid var(--border-hairline);
+            border-bottom: 1px solid var(--border-hairline);
+            background: var(--bg-surface);
+        }
+        .ticker-track {
+            display: flex;
+            gap: 3rem;
+            animation: ticker-scroll 30s linear infinite;
+            width: max-content;
+        }
+        .ticker-track:hover { animation-play-state: paused; }
+        .ticker-item {
+            display: flex; align-items: center; gap: 0.6rem;
+            font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--text-muted); white-space: nowrap;
+        }
+        .ticker-item::before {
+            content: '✦';
+            font-size: 0.5rem;
+            color: rgba(200,184,255,0.4);
+        }
+        @keyframes ticker-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background: var(--bg-void);
+            border-top: 1px solid var(--border-hairline);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* footer top gradient accent */
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(200,184,255,0.5) 20%,
+                rgba(125,232,216,0.5) 50%,
+                rgba(255,180,162,0.5) 80%,
+                transparent 100%
+            );
+        }
+
+        footer::after {
+            content: '';
+            position: absolute;
+            top: -200px; left: 50%; transform: translateX(-50%);
+            width: 600px; height: 400px;
+            background: radial-gradient(ellipse, rgba(200,184,255,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .footer-top {
+            padding: 5rem 0 3rem;
+            border-bottom: 1px solid var(--border-hairline);
+        }
+
+        .footer-top-grid {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .footer-brand {}
+
+        .footer-logo-large {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.05rem; font-weight: 600;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            max-width: 320px;
+            margin-bottom: 2rem;
+        }
+
+        /* Social links */
+        .social-links {
+            display: flex; gap: 0.6rem; flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 0.9rem;
+            border: 1px solid var(--border-hairline);
+            border-radius: 100px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.78rem;
+            letter-spacing: 0.02em;
+            transition: all 0.3s var(--ease-out-expo);
+            background: var(--bg-raised);
+        }
+
+        .social-link:hover {
+            color: var(--text-primary);
+            border-color: var(--border-subtle);
+            transform: translateY(-2px);
+        }
+
+        .social-link.x-link:hover    { border-color: rgba(255,255,255,0.25); box-shadow: 0 0 20px rgba(255,255,255,0.05); }
+        .social-link.github:hover    { border-color: rgba(200,184,255,0.4); box-shadow: 0 0 20px rgba(200,184,255,0.08); color: var(--accent-1); }
+        .social-link.linkedin:hover  { border-color: rgba(125,232,216,0.4); box-shadow: 0 0 20px rgba(125,232,216,0.08); color: var(--accent-2); }
+
+        .social-link i { font-size: 0.85rem; }
+
+        /* footer columns */
+        .footer-col-title {
+            font-size: 0.7rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.88rem;
+            transition: color 0.2s ease;
+            display: flex; align-items: center; gap: 0.4rem;
+        }
+        .footer-links a:hover { color: var(--text-primary); }
+        .footer-links a::before {
+            content: '→';
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+        .footer-links a:hover::before { transform: translateX(3px); color: var(--accent-1); }
+
+        /* ─── DEVELOPER CARD ─── */
+        .footer-dev {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border-hairline);
+        }
+
+        .dev-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 2rem;
+            padding: 2.5rem 3rem;
+            background: var(--bg-raised);
+            border: 1px solid var(--border-hairline);
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.4s ease;
+        }
+
+        .dev-card::before {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: var(--radius-lg);
+            padding: 1px;
+            background: linear-gradient(135deg,
+                rgba(200,184,255,0.35) 0%,
+                rgba(125,232,216,0.2) 50%,
+                rgba(255,180,162,0.25) 100%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .dev-card:hover::before { opacity: 1; }
+        .dev-card:hover { border-color: transparent; }
+
+        /* developer badge label */
+        .dev-badge {
+            position: absolute;
+            top: 1.25rem; right: 2rem;
+            font-size: 0.62rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 0.25rem 0.75rem;
+            border: 1px solid var(--border-hairline);
+            border-radius: 100px;
+            background: var(--bg-surface);
+        }
+
+        /* avatar */
+        .dev-avatar {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,
+                rgba(200,184,255,0.3),
+                rgba(125,232,216,0.2)
+            );
+            border: 1px solid var(--border-subtle);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-style: italic;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            flex-shrink: 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .dev-info {}
+
+        .dev-name {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.2rem;
+        }
+
+        .dev-role {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+
+        .dev-contact-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .dev-contact-item {
+            display: inline-flex; align-items: center; gap: 0.45rem;
+            padding: 0.4rem 0.9rem;
+            border: 1px solid var(--border-hairline);
+            border-radius: 100px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            background: var(--bg-surface);
+            transition: all 0.3s var(--ease-out-expo);
+            white-space: nowrap;
+        }
+
+        .dev-contact-item:hover {
+            color: var(--text-primary);
+            border-color: var(--border-subtle);
+            transform: translateY(-2px);
+        }
+
+        .dev-contact-item.phone:hover  { border-color: rgba(125,232,216,0.4); color: var(--accent-2); }
+        .dev-contact-item.email:hover  { border-color: rgba(255,180,162,0.4); color: var(--accent-3); }
+        .dev-contact-item.xlink:hover  { border-color: rgba(255,255,255,0.25); color: #fff; }
+        .dev-contact-item.ghlink:hover { border-color: rgba(200,184,255,0.4); color: var(--accent-1); }
+        .dev-contact-item.lilink:hover { border-color: rgba(125,232,216,0.4); color: var(--accent-2); }
+
+        .dev-contact-item i { font-size: 0.8rem; }
+
+        /* dev right side decorative */
+        .dev-deco {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .dev-deco-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-subtle));
+        }
+        .dev-deco-line:nth-child(1) { width: 80px; }
+        .dev-deco-line:nth-child(2) { width: 50px; }
+        .dev-deco-line:nth-child(3) { width: 65px; }
+
+        .dev-deco-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--border-subtle);
+            margin-top: 0.5rem;
+        }
+
+        /* ─── FOOTER BOTTOM ─── */
+        .footer-bottom {
+            padding: 2rem 0;
+        }
+
+        .footer-bottom-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-legal {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 580px;
+        }
+
+        .footer-copy {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            .footer-top-grid { grid-template-columns: 1fr 1fr; }
+            .footer-brand { grid-column: 1 / -1; }
+            .dev-card { grid-template-columns: auto 1fr; }
+            .dev-deco { display: none; }
+            .dev-badge { display: none; }
+        }
+
+        @media (max-width:768px) {
+            h1 { font-size:2rem; }
+            h2 { font-size:1.8rem; }
+            section { padding:5rem 0; }
+            .container { padding:0 1.25rem; }
+            nav a { font-size:0.8rem; }
+            .flow-arrow { display:none; }
+            .footer-top-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .dev-card { grid-template-columns: 1fr; padding: 2rem; }
+            .dev-avatar { margin-bottom: 0.5rem; }
+            .footer-bottom-inner { flex-direction: column; align-items: flex-start; }
+        }
+
+        /* ─── REVEAL ─── */
+        .reveal {
+            opacity:0; transform:translateY(20px);
+            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+        }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+        .reveal-delay-1 { transition-delay:0.1s; }
+        .reveal-delay-2 { transition-delay:0.2s; }
+        .reveal-delay-3 { transition-delay:0.3s; }
+
+        /* ─── SCROLLBAR ─── */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-void); }
+        ::-webkit-scrollbar-thumb { background: var(--border-visible); border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Cardiac.AI</div>
+                <nav>
+                    <a href="#solution">Solution</a>
+                    <a href="#technology">Technology</a>
+                    <a href="#audience">For Who</a>
+                    <a href="/app">AI Assistant</a>
+                    <a href="/test">Batch Predict</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO — UNCHANGED -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-ball-wrap">
+                <div class="glass-ball"></div>
+            </div>
+            <div class="hero-content">
+                <div class="hero-eyebrow">Cardiovascular Risk Intelligence</div>
+                <h1>Early Heart Disease<br>Risk Prediction</h1>
+                <p class="hero-sub-headline">With Transparent Explanation</p>
+                <p class="subtitle">AI-driven cardiovascular risk assessment with human-readable clinical reasoning. Understand your health, not just your numbers.</p>
+                <div class="cta-buttons">
+                    <a href="/app" class="btn btn-primary">Check Risk <i class="fa-solid fa-arrow-right" style="font-size:0.75rem;"></i></a>
+                    <a href="#solution" class="btn btn-secondary">How It Works</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TICKER -->
+    <div class="ticker-wrap">
+        <div class="ticker-track">
+            <span class="ticker-item">Cardiovascular Risk Assessment</span>
+            <span class="ticker-item">SHAP Explainability</span>
+            <span class="ticker-item">Logistic Regression Pipeline</span>
+            <span class="ticker-item">Clinical Decision Support</span>
+            <span class="ticker-item">Patient Empowerment</span>
+            <span class="ticker-item">Transparent AI</span>
+            <span class="ticker-item">Natural Language Reports</span>
+            <span class="ticker-item">Regulatory Compliance</span>
+            <!-- duplicate for seamless loop -->
+            <span class="ticker-item">Cardiovascular Risk Assessment</span>
+            <span class="ticker-item">SHAP Explainability</span>
+            <span class="ticker-item">Logistic Regression Pipeline</span>
+            <span class="ticker-item">Clinical Decision Support</span>
+            <span class="ticker-item">Patient Empowerment</span>
+            <span class="ticker-item">Transparent AI</span>
+            <span class="ticker-item">Natural Language Reports</span>
+            <span class="ticker-item">Regulatory Compliance</span>
+        </div>
+    </div>
+
+    <!-- PROBLEM -->
+    <section id="problem">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">The Challenge</span>
+                <h2>The Black Box Problem</h2>
+                <p class="section-description">Traditional machine learning models predict risk but fail to explain their reasoning, leaving patients and clinicians without actionable insight.</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card reveal reveal-delay-1">
+                    <div class="card-accent"></div>
+                    <span class="card-num">01</span>
+                    <h3>Lack of Transparency</h3>
+                    <p>Complex algorithms generate predictions without revealing the underlying factors driving each individual assessment.</p>
+                </div>
+                <div class="card reveal reveal-delay-2">
+                    <div class="card-accent"></div>
+                    <span class="card-num">02</span>
+                    <h3>Eroded Trust</h3>
+                    <p>Without understanding how conclusions are reached, patients and healthcare providers struggle to trust automated risk scores.</p>
+                </div>
+                <div class="card reveal reveal-delay-3">
+                    <div class="card-accent"></div>
+                    <span class="card-num">03</span>
+                    <h3>Limited Clinical Utility</h3>
+                    <p>Numerical predictions alone provide no guidance on preventive measures or personalized interventions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS BAND -->
+    <div class="stats-band">
+        <div class="container">
+            <div class="stats-grid reveal">
+                <div class="stat-item">
+                    <span class="stat-number">17.9M</span>
+                    <span class="stat-label">Annual CVD Deaths</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">80%</span>
+                    <span class="stat-label">Preventable with Early Detection</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">SHAP</span>
+                    <span class="stat-label">Explainability Engine</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">LLM</span>
+                    <span class="stat-label">Plain Language Reports</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOLUTION -->
+    <section id="solution">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Our Approach</span>
+                <h2>Intelligent Prediction,<br>Human Explanation</h2>
+                <p class="section-description">State-of-the-art machine learning combined with natural language processing—delivering accurate predictions alongside clear, actionable explanations.</p>
+            </div>
+            <div class="flow-container reveal">
+                <div class="flow-item">
+                    <div class="flow-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3>Patient Data</h3>
+                    <p>Clinical metrics and health indicators</p>
+                </div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-item">
+                    <div class="flow-icon"><i class="fa-solid fa-brain"></i></div>
+                    <h3>Risk Prediction</h3>
+                    <p>ML model analysis and scoring</p>
+                </div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-item">
+                    <div class="flow-icon"><i class="fa-solid fa-comments"></i></div>
+                    <h3>Plain Language</h3>
+                    <p>Clear, personalized explanation</p>
+                </div>
+            </div>
+            <div class="example-box reveal">
+                <span class="example-label">Sample Output</span>
+                Your elevated risk score is primarily influenced by your blood pressure reading of 145/92 and cholesterol level of 240 mg/dL. These factors, combined with a sedentary lifestyle, increase cardiovascular stress. Consider discussing blood pressure management and dietary modifications with your physician.
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPLAINABILITY -->
+    <section id="explainability">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Why It Matters</span>
+                <h2>Why Explainability Matters</h2>
+            </div>
+            <div class="cards-grid">
+                <div class="card reveal reveal-delay-1">
+                    <div class="card-accent"></div>
+                    <span class="card-num">01</span>
+                    <h3>Patient Empowerment</h3>
+                    <p>Understanding personal risk factors enables informed health decisions and meaningful lifestyle modifications.</p>
+                </div>
+                <div class="card reveal reveal-delay-2">
+                    <div class="card-accent"></div>
+                    <span class="card-num">02</span>
+                    <h3>Clinical Confidence</h3>
+                    <p>Physicians can validate AI recommendations against clinical judgment and individual patient context.</p>
+                </div>
+                <div class="card reveal reveal-delay-3">
+                    <div class="card-accent"></div>
+                    <span class="card-num">03</span>
+                    <h3>Regulatory Compliance</h3>
+                    <p>Transparent AI systems meet emerging healthcare standards for interpretable decision support tools.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECHNOLOGY -->
+    <section id="technology">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Under the Hood</span>
+                <h2>Technology Architecture</h2>
+                <p class="section-description">A robust pipeline combining supervised learning, feature analysis, and natural language generation for clinical-grade outputs.</p>
+            </div>
+            <div class="tech-items reveal">
+                <div class="tech-item">
+                    <div class="tech-icon"><i class="fa-solid fa-gears"></i></div>
+                    <h3>ML Pipeline</h3>
+                    <p>Standard scaling for better scaling data and Logistic Regression</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <h3>Feature Analysis</h3>
+                    <p>SHAP values and contribution scoring</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon"><i class="fa-solid fa-robot"></i></div>
+                    <h3>LLM Engine</h3>
+                    <p>Contextual explanation generation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AUDIENCE -->
+    <section id="audience">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Who It Serves</span>
+                <h2>Built For Everyone</h2>
+            </div>
+            <div class="cards-grid">
+                <div class="card reveal reveal-delay-1">
+                    <div class="card-accent"></div>
+                    <span class="card-num">01</span>
+                    <h3>Patients</h3>
+                    <p>Understand your cardiovascular health in plain language. Receive personalized insights that guide preventive action and lifestyle choices.</p>
+                </div>
+                <div class="card reveal reveal-delay-2">
+                    <div class="card-accent"></div>
+                    <span class="card-num">02</span>
+                    <h3>Clinicians</h3>
+                    <p>Enhance diagnostic workflows with interpretable AI. Review transparent risk assessments that complement clinical expertise and patient care.</p>
+                </div>
+                <div class="card reveal reveal-delay-3">
+                    <div class="card-accent"></div>
+                    <span class="card-num">03</span>
+                    <h3>Healthcare Systems</h3>
+                    <p>Deploy trustworthy AI at scale. Meet regulatory requirements while improving patient outcomes through accessible, explainable technology.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <!-- TOP SECTION -->
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-top-grid reveal">
+                    <!-- Brand -->
+                    <div class="footer-brand">
+                        <span class="footer-logo-large">Cardiac.AI</span>
+                        <p class="footer-tagline">AI-driven cardiovascular risk assessment with human-readable clinical reasoning. Empowering patients and clinicians with transparent, explainable predictions.</p>
+                        <div class="social-links">
+                            <a href="https://x.com/ApexionS64352" class="social-link x-link">
+                                <i class="fa-brands fa-x-twitter"></i> X / Twitter
+                            </a>
+                            <a href="https://github.com/say217" class="social-link github">
+                                <i class="fa-brands fa-github"></i> GitHub
+                            </a>
+                            <a href="https://www.linkedin.com/in/sayak-samanta-64391a316/" class="social-link linkedin">
+                                <i class="fa-brands fa-linkedin-in"></i> LinkedIn
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Nav col 1 -->
+                    <div>
+                        <span class="footer-col-title">Product</span>
+                        <ul class="footer-links">
+                            <li><a href="#solution">How It Works</a></li>
+                            <li><a href="#technology">Technology</a></li>
+                            <li><a href="#explainability">Explainability</a></li>
+                            <li><a href="/app">AI Assistant</a></li>
+                            <li><a href="/test">Batch Predict</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Nav col 2 -->
+                    <div>
+                        <span class="footer-col-title">About</span>
+                        <ul class="footer-links">
+                            <li><a href="#audience">Who It Serves</a></li>
+                            <li><a href="#problem">The Challenge</a></li>
+                            <li><a href="#">Research</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Use</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DEVELOPER CARD -->
+        <div class="footer-dev">
+            <div class="container">
+                <div class="dev-card reveal">
+                    <span class="dev-badge">Developer</span>
+
+                    <!-- Avatar -->
+                    <div class="dev-avatar">SS</div>
+
+                    <!-- Info -->
+                    <div class="dev-info">
+                        <p class="dev-name">Sayak Samanta</p>
+                        <p class="dev-role">Developer &amp; Creator of Cardiac.AI</p>
+                        <div class="dev-contact-list">
+                            <a href="tel:zxxxxxxxxxxxxx" class="dev-contact-item phone">
+                                <i class="fa-solid fa-phone"></i>
+                                +91 8348876903
+                            </a>
+                            <a href="mailto:xxxxxx" class="dev-contact-item email">
+                                <i class="fa-solid fa-envelope"></i>
+                                sayaksmnt@gmail.com
+                            </a>
+                            <a href="https://x.com/ApexionS64352" class="dev-contact-item xlink">
+                                <i class="fa-brands fa-x-twitter"></i>
+                                x account
+                            </a>
+                            <a href="https://github.com/say217" class="dev-contact-item ghlink">
+                                <i class="fa-brands fa-github"></i>
+                                github account
+                            </a>
+                            <a href="https://www.linkedin.com/in/sayak-samanta-64391a316/" class="dev-contact-item lilink">
+                                <i class="fa-brands fa-linkedin-in"></i>
+                                linkedin account
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Decorative right element -->
+                    <div class="dev-deco">
+                        <div class="dev-deco-line"></div>
+                        <div class="dev-deco-line"></div>
+                        <div class="dev-deco-line"></div>
+                        <div class="dev-deco-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTTOM -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-inner">
+                    <p class="footer-legal">
+                        This system provides risk assessment for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. All clinical decisions should be made in consultation with qualified healthcare providers.
+                    </p>
+                    <span class="footer-copy">© 2026 Cardiac.AI &nbsp;·&nbsp; Sayak Samanta</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const revealEls = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        revealEls.forEach(el => observer.observe(el));
+
+        const ball = document.querySelector('.glass-ball');
+        document.addEventListener('mousemove', (e) => {
+            if (!ball) return;
+            const rect = ball.getBoundingClientRect();
+            const cx = rect.left + rect.width  / 2;
+            const cy = rect.top  + rect.height / 2;
+            const dx = (e.clientX - cx) / window.innerWidth;
+            const dy = (e.clientY - cy) / window.innerHeight;
+            ball.style.backgroundImage = `
+                radial-gradient(ellipse 55% 38% at ${33 + dx * 14}% ${25 + dy * 14}%,
+                    rgba(255,255,255,0.24) 0%,
+                    rgba(255,255,255,0.04) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(ellipse 60% 55% at ${68 + dx * 8}% ${72 + dy * 8}%,
+                    rgba(0,0,0,0.45) 0%,
+                    transparent 70%
+                ),
+                radial-gradient(ellipse 100% 100% at 50% 50%,
+                    rgba(255,255,255,0.07) 0%,
+                    rgba(255,255,255,0.03) 40%,
+                    rgba(0,0,0,0.1) 100%
+                )
+            `;
+        });
+    </script>
+</body>
+</html>

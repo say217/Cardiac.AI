@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: pip
+          cache-dependency-path: requiermnts.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requiermnts.txt
+
+      - name: Run Flask smoke tests
+        env:
+          SECRET_KEY: github-actions-test-key
+          FLASK_ENV: testing
+          FLASK_DEBUG: 'False'
+        run: |
+          python - <<'PY'
+          import io
+          
+          from app import create_app
+          
+          app = create_app()
+          client = app.test_client()
+          
+          home = client.get('/')
+          assert home.status_code == 200, home.status_code
+          
+          page = client.get('/app')
+          assert page.status_code == 200, page.status_code
+          
+          test_page = client.get('/test')
+          assert test_page.status_code == 200, test_page.status_code
+          
+          csv_payload = (
+              'age,sex,systolic_bp,cholesterol,bmi,smoking,diabetes,'
+              'resting_hr,physical_activity,family_history\n'
+              '54,1,138,220,27.5,0,0,72,1,1\n'
+          )
+          
+          response = client.post(
+              '/test/predict',
+              data={
+                  'file': (io.BytesIO(csv_payload.encode('utf-8')), 'sample.csv'),
+              },
+              content_type='multipart/form-data',
+          )
+          
+          assert response.status_code == 200, response.get_data(as_text=True)
+          payload = response.get_json()
+          assert payload['predictions'], payload
+          assert payload['probabilities'], payload
+          print('CI smoke tests passed.')
+          PY

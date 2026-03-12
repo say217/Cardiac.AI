@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardiac.AI — Batch Prediction</title>
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='Gemini_Generated_Image_a4rvjpa4rvjpa4rv.png') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body>
+
+<div class="app">
+  <header class="app-header">
+    <div class="logo-container">
+      <img src="https://i.postimg.cc/Xv6Tcg1s/Gemini-Generated-Image-a4rvjpa4rvjpa4rv.png" alt="Cardiac.AI Logo" class="logo">
+      <span class="app-title">Cardiac.AI</span>
+    </div>
+    <nav class="nav-links">
+      <a href="/">Home</a>
+      <a href="/app">AI Assistant</a>
+      <a href="/test" class="active">Batch Predict</a>
+      <a href="/test/download-sample" class="dl-btn" title="Download sample test CSV"><svg viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>Test Data</a>
+    </nav>
+  </header>
+
+  <div class="main-content">
+
+    <!-- ── LEFT 70%: Spreadsheet + Viz ── -->
+    <div class="sheet-panel">
+      <div class="view-tabs" id="view-tabs">
+        <button class="view-tab active" data-view="data">Data</button>
+        <button class="view-tab" data-view="viz">Visualize</button>
+        <button class="view-action-btn" id="download-predicted-btn" type="button">Download Predicted Data</button>
+      </div>
+
+      <div class="sheet-placeholder" id="sheet-placeholder">Upload a CSV to preview data</div>
+
+      <!-- DATA view -->
+      <div class="sheet-wrapper" id="sheet-wrapper">
+        <table class="sheet-table" id="sheet-table">
+          <thead id="sheet-head"></thead>
+          <tbody id="sheet-body"></tbody>
+        </table>
+      </div>
+      <div class="row-counter" id="row-counter"></div>
+
+      <!-- VIZ view -->
+      <div class="viz-container" id="viz-container">
+        <div class="viz-grid" id="viz-grid"></div>
+      </div>
+    </div>
+
+    <!-- ── RIGHT 30%: Upload ── -->
+    <div class="upload-panel">
+      <div class="section-title">Upload CSV</div>
+
+      <div class="drop-zone" id="drop-zone">
+        <input type="file" id="csv-input" accept=".csv">
+        <p class="drop-label">Click or drag &amp; drop a <strong>.csv</strong> file</p>
+        <p class="drop-hint">Max 100 rows will be displayed</p>
+      </div>
+
+      <div class="meta-card" id="meta-card">
+        <div class="meta-row"><span class="meta-label">File</span><span class="meta-value" id="meta-name">—</span></div>
+        <div class="meta-row"><span class="meta-label">Size</span><span class="meta-value" id="meta-size">—</span></div>
+        <div class="meta-row"><span class="meta-label">Rows</span><span class="meta-value" id="meta-rows">—</span></div>
+        <div class="meta-row"><span class="meta-label">Columns</span><span class="meta-value" id="meta-cols">—</span></div>
+        <div class="section-title" style="margin-top:6px">Column Names</div>
+        <div class="meta-cols" id="meta-col-names">—</div>
+      </div>
+
+      <button class="predict-btn" id="predict-btn" type="button">
+        <span class="btn-text">Predict</span>
+        <span class="btn-loader" id="btn-loader"></span>
+      </button>
+
+      <div class="status-msg" id="status-msg"></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/test.js') }}"></script>
+</body>
+</html>
